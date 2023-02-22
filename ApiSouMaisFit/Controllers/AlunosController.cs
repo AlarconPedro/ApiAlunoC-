@@ -75,7 +75,7 @@ namespace ApiSouMaisFit.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult> UpdateAluno(int id, [FromBody] Aluno aluno)
         {   
             try
@@ -89,6 +89,25 @@ namespace ApiSouMaisFit.Controllers
                     return BadRequest("Dados Inconsistentes!");
                 
                 
+            }
+            catch
+            {
+                return BadRequest("Request Inválido");
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteAluno(int id, [FromBody] Aluno aluno)
+        {
+            try
+            {
+                var alunoToDelete = await _alunoService.GetAlunosById(id);
+                if (alunoToDelete == null)
+                    return NotFound($"Não foi possível encontrar um aluno com id {id}");
+
+                await _alunoService.DeleteAluno(alunoToDelete);
+                return Ok($"O Aluno de id {id} foi deletado com sucesso!");
+
             }
             catch
             {
