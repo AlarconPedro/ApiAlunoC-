@@ -1,5 +1,7 @@
 ﻿using ApiSouMaisFit.Models;
 using ApiSouMaisFit.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +9,7 @@ namespace ApiSouMaisFit.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AlunosController : ControllerBase
     {
         private IAlunoService _alunoService;
@@ -97,7 +100,7 @@ namespace ApiSouMaisFit.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> DeleteAluno(int id, [FromBody] Aluno aluno)
+        public async Task<ActionResult> DeleteAluno(int id)
         {
             try
             {
